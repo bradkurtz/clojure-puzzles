@@ -36,4 +36,14 @@
   (= 20 (reduce + left) (reduce + right)))
 
 
+(defn sum-one-eq-sum-two?
+  [row1 row2]
+  "Verifies that the sum of the 1-ball row and the sum of the 2-ball row both equal 20"
+  (= 20 (row1) (row2)))
 
+(defn adj-balls-in-four-gt-one-apart?
+  [row]
+  "Verifies that adjacent balls in the 4-ball row are more than 1 apart"
+  (and (< 1 (- (row 1) (row 0))) (< 1 (- (row 2) (row 1))) (< 1 (- (row 3) (row 2)))))
+
+(adj-balls-in-four-gt-one-apart? [1 3 5 7])
