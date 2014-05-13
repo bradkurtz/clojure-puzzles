@@ -43,7 +43,7 @@
 (defn sum-one-eq-sum-two?
   [row1 row2]
   "D: Verifies that the sum of the 1-ball row and the sum of the 2-ball row both equal 20"
-  (= 20 (row1) (row2)))
+  (= 20 (reduce + row1) (reduce + row2)))
 
 (defn adj-balls-in-four-gt-one-apart?
   [row]
@@ -56,14 +56,23 @@
   (let [ball4-row (vec (take 4 balls))
         ball3-row (vec (drop 4 (drop-last 3 balls)))
         ball2-row (vec (drop 7 (drop-last 1 balls)))
-        ball1-row (vec (take-last 1 balls))]
-    (println ball4-row ball3-row ball2-row ball1-row)
+        ball1-row (vec (take-last 1 balls))
+        edges (get-edges balls)]
     (and (three-row-asc? ball3-row)
          (sum-three-eq-sum-two? ball3-row ball2-row)
-         (sum-edges-eq? (get-edges balls))
+         (sum-edges-eq? (edges :left) (edges :right))
          (sum-one-eq-sum-two? ball1-row ball2-row)
          (adj-balls-in-four-gt-one-apart? ball4-row))))
 
-(correct-arrangement? [1 2 3 4 5 6 7 8 9 10])
+(defn solve
+  []
+  "Solves the puzzle"
+  (filter correct-arrangement? perms))
+
+
+(def edges (get-edges [1 2 3 4 5 6 7 8 9 10]))
+(edges :right)
+
+(solve)
 
 
