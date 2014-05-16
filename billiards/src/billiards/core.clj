@@ -58,21 +58,22 @@
         ball2-row (vec (drop 7 (drop-last 1 balls)))
         ball1-row (vec (take-last 1 balls))
         edges (get-edges balls)]
-    (and (three-row-asc? ball3-row)
-         (sum-three-eq-sum-two? ball3-row ball2-row)
-         (sum-edges-eq? (edges :left) (edges :right))
-         (sum-one-eq-sum-two? ball1-row ball2-row)
-         (adj-balls-in-four-gt-one-apart? ball4-row))))
+      (and (three-row-asc? ball3-row)
+           (sum-three-eq-sum-two? ball3-row ball2-row)
+           (sum-edges-eq? (edges :left) (edges :right))
+           (sum-one-eq-sum-two? ball1-row ball2-row)
+           (adj-balls-in-four-gt-one-apart? ball4-row))))
 
 (defn solve
+  [balls]
+  "Recursively checks each permutation and prints out the solution if it exists"
+  (cond
+   (empty? perms) (println "No solution found")
+   (correct-arrangement? (first balls)) (println balls)
+   :else (solve (rest balls))))
+
+
+(defn -main
   []
   "Solves the puzzle"
-  (filter correct-arrangement? perms))
-
-
-(def edges (get-edges [1 2 3 4 5 6 7 8 9 10]))
-(edges :right)
-
-(solve)
-
-
+  (solve perms))
