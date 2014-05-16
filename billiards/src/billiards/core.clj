@@ -54,8 +54,8 @@
   [balls]
   "Solves the puzzle given a permutation of the ball arrangement (balls)"
   (let [ball4-row (vec (take 4 balls))
-        ball3-row (vec (drop 4 (drop-last 3 balls)))
-        ball2-row (vec (drop 7 (drop-last 1 balls)))
+        ball3-row (vec (take 3 (drop 4 balls)))
+        ball2-row (vec (take 2 (drop 7 balls)))
         ball1-row (vec (take-last 1 balls))
         edges (get-edges balls)]
       (and (three-row-asc? ball3-row)
@@ -68,10 +68,9 @@
   [balls]
   "Recursively checks each permutation and prints out the solution if it exists"
   (cond
-   (empty? perms) (println "No solution found")
+   (empty? balls) (println "No solution found")
    (correct-arrangement? (first balls)) (println balls)
-   :else (solve (rest balls))))
-
+   :else (recur (rest balls))))
 
 (defn -main
   []

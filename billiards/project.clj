@@ -6,4 +6,4 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/math.combinatorics "0.0.7"]]
   :main billiards.core
-  :jvm-opts ["-Xmx768M"])
+  :jvm-opts ["-Xmx1024M"])
