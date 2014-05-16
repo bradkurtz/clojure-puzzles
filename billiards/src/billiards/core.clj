@@ -10,7 +10,8 @@
 
 
 (ns billiards.core
-  (require [clojure.math.combinatorics :as combo]))
+  (require [clojure.math.combinatorics :as combo])
+  (require [clojure.math.numeric-tower :as math]))
 
 (def perms (combo/permutations (range 1 11)))
 
@@ -43,12 +44,24 @@
 (defn sum-one-eq-sum-two?
   [row1 row2]
   "D: Verifies that the sum of the 1-ball row and the sum of the 2-ball row both equal 20"
-  (= 20 (reduce + row1) (reduce + row2)))
+  (= 20 (+ (reduce + row1) (reduce + row2))))
+
+(defn greater-than-one?
+  [first second]
+  "Checks if the difference between 2 numbers is greater than 1"
+  (< 1 (math/abs (- first second))))
 
 (defn adj-balls-in-four-gt-one-apart?
   [row]
   "E: Verifies that adjacent balls in the 4-ball row are more than 1 apart"
-  (and (< 1 (- (row 1) (row 0))) (< 1 (- (row 2) (row 1))) (< 1 (- (row 3) (row 2)))))
+  (let [ball1 (row 0)
+        ball2 (row 1)
+        ball3 (row 2)
+        ball4 (row 3)]
+    (and
+     (greater-than-one? ball1 ball2)
+     (greater-than-one? ball2 ball3)
+     (greater-than-one? ball3 ball4))))
 
 (defn correct-arrangement?
   [balls]
@@ -56,13 +69,15 @@
   (let [ball4-row (vec (take 4 balls))
         ball3-row (vec (take 3 (drop 4 balls)))
         ball2-row (vec (take 2 (drop 7 balls)))
-        ball1-row (vec (take-last 1 balls))
+        ball1-row (take-last 1 balls)
         edges (get-edges balls)]
       (and (three-row-asc? ball3-row)
            (sum-three-eq-sum-two? ball3-row ball2-row)
            (sum-edges-eq? (edges :left) (edges :right))
            (sum-one-eq-sum-two? ball1-row ball2-row)
-           (adj-balls-in-four-gt-one-apart? ball4-row))))
+           (adj-balls-in-four-gt-one-apart? ball4-row)
+)))
+
 
 (defn solve
   [balls]
@@ -75,6 +90,10 @@
 (defn -main
   []
   "Solves the puzzle"
-  (solve perms))
+  (filter correct-arrangement? perms))
 
-(-main)
+
+(def ballz [5 7 4 1 3 6 9 8 10 2])
+(correct-arrangement? ballz)
+
+
