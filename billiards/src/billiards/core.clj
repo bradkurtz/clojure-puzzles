@@ -79,21 +79,9 @@
 )))
 
 
-(defn solve
-  [balls]
-  "Recursively checks each permutation and prints out the solution if it exists"
-  (cond
-   (empty? balls) (println "No solution found")
-   (correct-arrangement? (first balls)) (println balls)
-   :else (recur (rest balls))))
-
 (defn -main
   []
   "Solves the puzzle"
   (filter correct-arrangement? perms))
-
-
-(def ballz [5 7 4 1 3 6 9 8 10 2])
-(correct-arrangement? ballz)
 
 
