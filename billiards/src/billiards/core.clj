@@ -76,3 +76,5 @@
   []
   "Solves the puzzle"
   (solve perms))
+
+(-main)
