@@ -7,4 +7,4 @@
                  [org.clojure/math.combinatorics "0.0.7"]
                  [org.clojure/math.numeric-tower "0.0.4"]]
   :main billiards.core
-  :jvm-opts ["-Xmx1024M"])
+  :jvm-opts ["-Xms768m" "-Xmx768m"])
